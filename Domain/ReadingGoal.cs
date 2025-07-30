@@ -4,6 +4,7 @@ namespace Klevify_Domain.Domain.Models
 {
     public class ReadingGoal
     {
+        [Key]
         public int GoalID { get; set; }
 
         [Required]

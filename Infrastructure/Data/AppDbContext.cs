@@ -2,10 +2,11 @@
 using Klevify.Data.Models;
 using Klevify_Domain.Domain.Models;
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace Klevify.Data
 {
+
     public class AppDbContext : DbContext
     {
         public DbSet<User> Users { get; set; }
@@ -22,15 +23,22 @@ namespace Klevify.Data
         public DbSet<UserMembership> UserMemberships { get; set; }
         public DbSet<MembershipType> MembershipTypes { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlite("Filename=Book.db");
-        }
-
+        public AppDbContext(DbContextOptions<AppDbContext> options)
+       : base(options) { }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<BookLanguage>().HasKey(bl => new { bl.BookID, bl.LanguageID });
-            modelBuilder.Entity<AuthorBook>().HasKey(ab => new { ab.BookID, ab.UserID });
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<MembershipType>()
+                .Property(m => m.Price)
+                .HasPrecision(18, 2);
+
+            modelBuilder.Entity<BookLanguage>()
+                .HasKey(bl => new { bl.BookID, bl.LanguageID });
+
+            modelBuilder.Entity<AuthorBook>()
+                .HasKey(ab => new { ab.BookID, ab.UserID });
         }
+
     }
 }

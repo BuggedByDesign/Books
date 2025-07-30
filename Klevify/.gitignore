@@ -1,0 +1,16 @@
+# Build folders
+bin/
+obj/
+
+# User-specific files
+*.user
+*.suo
+
+# Visual Studio temporary files
+.vs/
+
+# Entity Framework migrations (ако искаш)
+Migrations/
+
+# Logs
+*.log
